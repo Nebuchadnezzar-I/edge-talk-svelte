@@ -35,10 +35,13 @@ function scrollToIndex(index: number) {
 
 <div
     class="
-    modal bg-background w-full flex flex-col
-    gap-3 p-3 pb-5 duration-200 z-10 fixed bottom-0 left-0
+    bg-background w-full flex flex-col overflow-hidden
+    gap-3 p-3 duration-200 z-10 fixed bottom-0 left-0
     "
-    style="height: {modalState ? '100dvh' : '0dvh'};"
+    style="
+        height: {modalState ? '100dvh' : '0'};
+        padding-bottom: {modalState ? '1.5rem' : '0'};
+    "
 >
     <!-- Header -->
     <div class="flex items-center justify-between">
@@ -49,7 +52,7 @@ function scrollToIndex(index: number) {
     </div>
 
     <!-- Container -->
-    <div bind:this={container} class="w-full h-full flex overflow-x-auto snap-x snap-mandatory">
+    <div bind:this={container} class="w-full h-full flex overflow-x-hidden snap-x snap-mandatory">
         <!-- TODO: Add more -->
         <div class="min-w-full snap-start">
             133
