@@ -3,7 +3,7 @@ import { sveltekit } from '@sveltejs/kit/vite';
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
-	plugins: [
+    plugins: [
         sveltekit(),
         VitePWA({
             registerType: 'autoUpdate',
@@ -11,11 +11,26 @@ export default defineConfig({
                 name: 'EdgeTalk.ai',
                 short_name: 'EdgeTalk',
                 theme_color: '#09090b',
+                start_url: '/',
+                display: 'standalone',
+                background_color: '#ffffff',
+                icons: [
+                    {
+                        src: '/icons/icon-192x192.png',
+                        sizes: '192x192',
+                        type: 'image/png'
+                    },
+                    {
+                        src: '/icons/icon-512x512.png',
+                        sizes: '512x512',
+                        type: 'image/png'
+                    }
+                ]
             }
-        }),
+        })
     ],
 
-	test: {
-		include: ['src/**/*.{test,spec}.{js,ts}']
-	}
+    test: {
+        include: ['src/**/*.{test,spec}.{js,ts}']
+    }
 });
