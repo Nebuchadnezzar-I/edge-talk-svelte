@@ -36,7 +36,7 @@ function scrollToIndex(index: number) {
 <div
     class="
     modal bg-background w-full flex flex-col
-    gap-3 p-3 duration-200 z-10 fixed bottom-0 left-0
+    gap-3 p-3 pb-5 duration-200 z-10 fixed bottom-0 left-0
     "
     style="height: {modalState ? '100dvh' : '0dvh'};"
 >
@@ -63,7 +63,7 @@ function scrollToIndex(index: number) {
     </div>
 
     <!-- Controls -->
-    <div class="flex justify-between">
+    <div class="flex justify-between gap-3">
         <Button variant="ghost" onclick={swipePrev}>
             Back
         </Button>
