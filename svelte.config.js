@@ -9,8 +9,8 @@ const config = {
         alias: {
             "@/*": "./path/to/lib/*",
         },
-		adapter: adapter()
-	}
+        adapter: adapter()
+    }
 };
 
 export default config;
