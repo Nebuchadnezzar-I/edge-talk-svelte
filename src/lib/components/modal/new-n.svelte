@@ -1,12 +1,13 @@
 <script lang="ts">
 import { Button } from "$lib/components/ui/button/index.js";
+import CarouselElements from "./elements/elms.svelte";
 import { X } from "lucide-svelte";
 export let modalState: boolean;
 export let toggleModal: () => void;
 
 let container: HTMLElement;
 let currentIndex: number = 0;
-const length: number = 3;
+const length: number = 52;
 
 function swipeNext() {
     if (currentIndex < length - 1) {
@@ -52,22 +53,23 @@ function scrollToIndex(index: number) {
     </div>
 
     <!-- Container -->
-    <div bind:this={container} class="w-full h-full flex overflow-x-hidden snap-x snap-mandatory">
+    <div bind:this={container} class="w-full h-full flex overflow-x-hidden snap-x snap-mandatory lg:w-[800px] lg:mx-auto">
         <!-- TODO: Add more -->
-        <div class="min-w-full snap-start">
-            133
-        </div>
-        <div class="min-w-full snap-start">
-            133
-        </div>
-        <div class="min-w-full snap-start">
-            133
-        </div>
+        <CarouselElements />
     </div>
 
     <!-- Controls -->
-    <div class="flex justify-between gap-3">
-        <Button variant="ghost" onclick={swipePrev}>
+    <div class="flex justify-between">
+        <Button
+            variant="ghost"
+            onclick={swipePrev}
+            class="transition-all duration-200 overflow-hidden"
+            style={`
+                width: ${currentIndex === 0 ? '0px' : '80px'};
+                padding: ${currentIndex === 0 ? '0px' : '0.5rem'};
+                margin-right: ${currentIndex === 0 ? '0px' : '0.75rem'};
+            `}
+        >
             Back
         </Button>
         <Button onclick={swipeNext} class="w-full">
