@@ -21,5 +21,5 @@ function toggleModal() {
     </div>
 
     <!-- Modal -->
-    <NewNegotiation toggleModal={toggleModal} modalState={modalState} />
+    <NewNegotiation {toggleModal} {modalState} />
 </div>

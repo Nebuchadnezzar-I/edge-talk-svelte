@@ -1,29 +1,46 @@
 <script lang="ts">
+interface Props {
+    toggleModal: () => void;
+    modalState: boolean;
+}
+
+let { toggleModal, modalState }: Props = $props();
+
 import { Button } from "$lib/components/ui/button/index.js";
 import CarouselElements from "./elements/elms.svelte";
 import { X } from "lucide-svelte";
-export let modalState: boolean;
-export let toggleModal: () => void;
+
+let state = $state({
+    currentIndex: 0,
+    isNavigationVisible: true,
+});
+
+const showNavigation = (s: boolean) =>
+    state.isNavigationVisible = s;
+
+const noNavigationElements = [ 1 ];
+const setCurrentIndex = (idx: number) => {
+    if (noNavigationElements.includes(idx)) showNavigation(false);
+        else showNavigation(true);
+
+    state.currentIndex = idx;
+};
 
 let container: HTMLElement;
-let currentIndex: number = 0;
-const length: number = 52;
+const length = 52;
+const swipeNext = () =>
+    state.currentIndex < length - 1 && (
+        setCurrentIndex(state.currentIndex + 1),
+        scrollToIndex(state.currentIndex, container)
+    );
 
-function swipeNext() {
-    if (currentIndex < length - 1) {
-        currentIndex++;
-        scrollToIndex(currentIndex);
-    }
-}
+const swipePrev = () =>
+    state.currentIndex > 0 && (
+        setCurrentIndex(state.currentIndex - 1),
+        scrollToIndex(state.currentIndex, container)
+    );
 
-function swipePrev() {
-    if (currentIndex > 0) {
-        currentIndex--;
-        scrollToIndex(currentIndex);
-    }
-}
-
-function scrollToIndex(index: number) {
+export function scrollToIndex(index: number, container: HTMLElement) {
     if (container) {
         const width = container.clientWidth;
         container.scrollTo({
@@ -44,7 +61,6 @@ function scrollToIndex(index: number) {
         padding-bottom: {modalState ? '1.5rem' : '0'};
     "
 >
-    <!-- Header -->
     <div class="flex items-center justify-between">
         <h3 class="text-md font-semibold">New negotiation</h3>
         <Button variant="ghost" onclick={toggleModal}>
@@ -52,22 +68,24 @@ function scrollToIndex(index: number) {
         </Button>
     </div>
 
-    <!-- Container -->
     <div bind:this={container} class="w-full h-full flex overflow-x-hidden snap-x snap-mandatory lg:w-[800px] lg:mx-auto">
-        <!-- TODO: Add more -->
-        <CarouselElements />
+        <CarouselElements {swipeNext} />
     </div>
 
-    <!-- Controls -->
-    <div class="flex justify-between">
+    <div
+        class="flex justify-between overflow-hidden transition-all duration-200"
+        style="
+        height: {state.isNavigationVisible ? '3rem' : '0px'}
+        "
+    >
         <Button
             variant="ghost"
             onclick={swipePrev}
-            class="transition-all duration-200 overflow-hidden"
+            class="transition-all duration-200 overflow-hidden "
             style={`
-                width: ${currentIndex === 0 ? '0px' : '80px'};
-                padding: ${currentIndex === 0 ? '0px' : '0.5rem'};
-                margin-right: ${currentIndex === 0 ? '0px' : '0.75rem'};
+                width: ${state.currentIndex === 0 ? '0px' : '80px'};
+                padding: ${state.currentIndex === 0 ? '0px' : '0.5rem'};
+                margin-right: ${state.currentIndex === 0 ? '0px' : '0.75rem'};
             `}
         >
             Back
